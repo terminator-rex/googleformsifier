@@ -1,0 +1,85 @@
+// This is a Google Apps Script to update the many Google Forms we use in Bike Train
+// It is designed to be easy to add forms to be fed from the backend
+// the backend is located at [redacted]
+// [redacted]
+
+function updateForm(){
+  
+// btops_googleforms_backend - if this script stops working, check the ID!
+  var backend = SpreadsheetApp.openById("[backend_spreadsheet_id]");
+  var values = backend.getSheetByName("values");
+
+// Add a line for each column added to 'btops_googleforms_backend!values'
+  var namesList = values.getRange(2, 1, values.getMaxRows() - 0).getValues();
+  var originListEV = values.getRange(2, 2, values.getMaxRows() - 0).getValues();
+  var destListEV = values.getRange(2, 3, values.getMaxRows() - 0).getValues();
+  var unitList = values.getRange(2, 4, values.getMaxRows() - 0).getValues();
+  var trailerList = values.getRange(2, 5, values.getMaxRows() - 0).getValues();
+  var originListMidtown = values.getRange(2, 6, values.getMaxRows() - 0).getValues();
+  var destListMidtown = values.getRange(2, 7, values.getMaxRows() - 0).getValues();
+  
+// Issue Reporting
+  
+  var formIssueReporting = FormApp.openById("[issue_reporting_googleform_id]");
+  var formIssueReporting_name = formIssueReporting.getItemById("[names_field_id]").asListItem();
+  
+  var namesIssueReporting = [];
+  for(var i = 0; i < namesList.length; i++)    
+    if(namesList[i][0] != "")
+      namesIssueReporting[i] = namesList[i][0];
+  formIssueReporting_name.setChoiceValues(namesIssueReporting);  
+
+// East Village
+
+  var formEV = FormApp.openById("[evill_googleform_id");
+  
+  var formEV_name = formEV.getItemById("[ev_name_id]").asListItem();
+  var formEV_origin = formEV.getItemById("[ev_origin_id]").asListItem();
+  var formEV_destination = formEV.getItemById("[ev_destination_id]").asListItem();
+  
+  var namesEV = [];
+  for(var i = 0; i < namesList.length; i++)    
+    if(namesList[i][0] != "")
+      namesEV[i] = namesList[i][0];
+  formEV_name.setChoiceValues(namesEV);
+  
+  var originEV = [];
+  for(var i = 0; i < originListEV.length; i++)
+    if(originListEV[i][0] != "")
+      originEV[i] = originListEV[i][0];
+  formEV_origin.setChoiceValues(originEV);
+  
+  var destEV = [];
+  for(var i = 0; i < destListEV.length; i++)
+    if(destListEV[i][0] != "")
+      destEV[i] = destListEV[i][0];
+  formEV_destination.setChoiceValues(destEV);
+  
+  
+// Midtown
+
+  var formMidtown = FormApp.openById("[midtown_googleform_id]");
+    
+ var formMidtown_name = formMidtown.getItemById("[midtown_name_id]").asListItem();
+ var formMidtown_origin = formMidtown.getItemById("[midtown_origin_id]").asListItem();
+ var formMidtown_destination = formMidtown.getItemById("[midtown_destination_id]").asListItem();
+  
+  var namesMidtown = [];
+  for(var i = 0; i < namesList.length; i++)    
+    if(namesList[i][0] != "")
+      namesMidtown[i] = namesList[i][0];
+  formMidtown_name.setChoiceValues(namesMidtown);
+  
+  var originMidtown = [];
+  for(var i = 0; i < originListMidtown.length; i++)
+    if(originListMidtown[i][0] != "")
+      originMidtown[i] = originListMidtown[i][0];
+  formMidtown_origin.setChoiceValues(originMidtown);
+  
+  var destMidtown = [];
+  for(var i = 0; i < destListMidtown.length; i++)
+    if(destListMidtown[i][0] != "")
+      destMidtown[i] = destListMidtown[i][0];
+  formMidtown_destination.setChoiceValues(destMidtown);
+  
+}
